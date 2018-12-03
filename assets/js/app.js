@@ -40,13 +40,20 @@ function init() {
     });
 
 
+
+
+
+
+
+
+
     $.ajax({
         method: 'GET',
         url: 'https://me.justinolanin.com/wp-json/wp-api-menus/v2/menus/3',
         dataType: 'json',
         success: function(data) {
             var menu = menuBuilder(data.items);
-            $('#genLinks').html(menu);
+            $('#General_Links').html(menu);
             $('nav li a').click(function() {
                 getPage($(this).data("pgid"));
             });
@@ -59,24 +66,34 @@ function init() {
 
 
 
+
+
+
+
+
+
+
+
     $.ajax({
         method: 'GET',
         url: 'https://me.justinolanin.com/wp-json/wp/v2/posts?orderby=date&per_page=5',
         dataType: 'json',
         success: function (data) {
-            $("#mylatestPosts").html('<p id="postLdr"><i class="fa fa-cogs"></i> Loading Posts</p>');
-            data.forEach(function (item) {
+            $("#mylatestPosts").html('<p id="myloadertocreatethedate"><i class="fa fa-cogs"></i> Loading Posts</p>');
+            data.forEach(function (datefromwordpress) {
 
-                var myDate = new Date(item.date);
+                var myDate = new Date(datefromwordpress.date);
 
-                $("#mylatestPosts").prepend('<p><a href="#" data-pgid="' + item.id + '" data-callkind="posts">' + item.title.rendered + '<span>' + myDate.getMonth() + '-' + myDate.getDay() + '-' + myDate.getFullYear() + '</span></a></p>');
+                $("#mylatestPosts").prepend('<p><a href="#" data-pgid="' + datefromwordpress.id +
+                '" data-callkind="posts">' + datefromwordpress.title.rendered + '<span>' + myDate.getMonth()
+                + '-' + myDate.getDay() + '-' + myDate.getFullYear() + '</span></a></p>');
 
             });
             $('#mylatestPosts p a').click(function () {
                 getPage($(this).data("pgid"), $(this).data("callkind"));
             });
 
-            $("#postLdr").remove();
+            $("#myloadertocreatethedate").remove();
         },
         error: function () {
             console.log('Error in my latest posts');
